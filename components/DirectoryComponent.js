@@ -13,7 +13,7 @@ constructor(props)
         campsites:CAMPSITES
     };
 }
-staticnavigationOptions = {
+static navigationOptions = {
     title: 'Directory'
 };
    render () {
