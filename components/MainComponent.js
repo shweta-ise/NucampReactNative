@@ -15,6 +15,7 @@ import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { fetchCampsites, fetchComments, fetchPromotions,
     fetchPartners } from '../redux/ActionCreators';
+    import Reservation from './ReservationComponent';
 
 
 
@@ -24,7 +25,6 @@ const mapDispatchToProps = {
     fetchPromotions,
     fetchPartners
 };
-
 
 
 
@@ -121,6 +121,30 @@ const AboutNavigator = createStackNavigator(
     }
 );
 
+
+const ReservationNavigator = createStackNavigator(
+    {
+        Reservation: { screen: Reservation }
+    },
+    {
+        defaultNavigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='tree'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
+    }
+);
+
 const ContactNavigator = createStackNavigator(
     {
         Contact: { screen: Contact}
@@ -168,6 +192,20 @@ const MainNavigator = createDrawerNavigator(
                     />
                 )
             } },
+         Reservation: {
+            screen: ReservationNavigator,
+            navigationOptions: {
+                drawerLabel: 'Reserve Campsite',
+                drawerIcon: ({tintColor}) => (
+                    <Icon
+                        name='tree'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            }
+        },
         About : {screen: AboutNavigator,
                  navigationOptions: {
                  drawerLabel: 'About Us',
