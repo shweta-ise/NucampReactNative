@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { View,  Text } from 'react-native';
 import Loading from './LoadingComponent';
+import * as Animatable from "react-native-animatable";
 
 const mapStateToProps = state => {
     return {
@@ -25,6 +26,7 @@ static navigationOptions = {
     const { navigate } = this.props.navigation;
     const renderDirectoryItem = ({item}) => {
         return (
+            <Animatable.View animation='fadeInRightBig' duration={2000}>
             <Tile
                 title={item.name}
                 caption={item.description}
@@ -33,6 +35,7 @@ static navigationOptions = {
                imageSrc={{uri: baseUrl+item.image}}
 
             />
+            </Animatable.View>
         );
     };
 
