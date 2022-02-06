@@ -6,7 +6,9 @@ import {
   FlatList,
   Modal,
   Button,
-  StyleSheet,Alert,PanResponder
+  StyleSheet,
+  Alert,
+  PanResponder,
 } from "react-native";
 import {
   Card,
@@ -36,15 +38,12 @@ const mapDispatchToProps = {
 };
 
 function RenderCampsite(props) {
-
-
-
   const { campsite } = props;
 
-    const view = React.createRef();
-
+  const view = React.createRef();
 
   const recognizeDrag = ({ dx }) => (dx < -200 ? true : false);
+  const recognizeComment = ({ dx }) => (dx > +200 ? true : false);
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -77,7 +76,11 @@ function RenderCampsite(props) {
           ],
           { cancelable: false }
         );
+      } else if (recognizeComment(gestureState)) {
+        console.log("Hello");
+        props.onShowModal();
       }
+
       return true;
     },
   });
@@ -91,7 +94,6 @@ function RenderCampsite(props) {
         ref={view}
         {...panResponder.panHandlers}
       >
-        
         <Card
           featuredTitle={campsite.name}
           image={{ uri: baseUrl + campsite.image }}
@@ -146,14 +148,14 @@ function RenderComments({ comments }) {
   };
 
   return (
-    <Animatable.View animation='fadeInUp' duration={2000} delay={1000}>
-    <Card title="Comments">
-      <FlatList
-        data={comments}
-        renderItem={renderCommentItem}
-        keyExtractor={(item) => item.id.toString()}
-      />
-    </Card>
+    <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
+      <Card title="Comments">
+        <FlatList
+          data={comments}
+          renderItem={renderCommentItem}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      </Card>
     </Animatable.View>
   );
 }
@@ -174,7 +176,12 @@ class CampsiteInfo extends Component {
   }
 
   handleComment(campsiteId, rating, author, text) {
-    this.props.postComment(this.campsiteId, this.rating, this.author, this.text);
+    this.props.postComment(
+      this.campsiteId,
+      this.rating,
+      this.author,
+      this.text
+    );
     console.log(JSON.stringify(this.state));
     this.toggleModal();
   }
