@@ -8,7 +8,7 @@ import {
   Button,
   StyleSheet,
   Alert,
-  PanResponder,
+  PanResponder,Share
 } from "react-native";
 import {
   Card,
@@ -36,6 +36,19 @@ const mapDispatchToProps = {
   postComment: (campsiteId, rating, author, text) =>
     postComment(campsiteId, rating, author, text),
 };
+
+ const shareCampsite = (title, message, url) => {
+   Share.share(
+     {
+       title: title,
+       message: `${title}: ${message} ${url}`,
+       url: url,
+     },
+     {
+       dialogTitle: "Share " + title,
+     }
+   );
+ };
 
 function RenderCampsite(props) {
   const { campsite } = props;
@@ -120,6 +133,21 @@ function RenderCampsite(props) {
               raised
               reverse
               onPress={() => props.onShowModal()}
+            />
+
+            <Icon
+              name={"share"}
+              type="font-awesome"
+              color="#5637DD"
+              raised
+              reverse
+              onPress={() =>
+                shareCampsite(
+                  campsite.name,
+                  campsite.description,
+                  baseUrl + campsite.image
+                )
+              }
             />
           </View>
         </Card>
